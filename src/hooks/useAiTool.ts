@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { generateWithAI } from "@/lib/ai.functions";
 
+export type Activity = { label: string; at: number };
+
 export function useLocalState<T>(key: string, initial: T) {
   const [state, setState] = useState<T>(initial);
 
@@ -26,7 +28,20 @@ export function useLocalState<T>(key: string, initial: T) {
   return [state, setState] as const;
 }
 
-export function useAiTool(storageKey: string) {
+function logActivity(label: string) {
+  try {
+    const raw = localStorage.getItem("aiwa.activity");
+    const list = raw ? (JSON.parse(raw) as Activity[]) : [];
+    localStorage.setItem(
+      "aiwa.activity",
+      JSON.stringify([{ label, at: Date.now() }, ...list].slice(0, 8)),
+    );
+  } catch {
+    /* ignore */
+  }
+}
+
+export function useAiTool(storageKey: string, activityLabel?: string) {
   const run = useServerFn(generateWithAI);
   const [output, setOutput] = useLocalState<string>(storageKey, "");
   const [loading, setLoading] = useState(false);
@@ -38,6 +53,7 @@ export function useAiTool(storageKey: string) {
     try {
       const result = await run({ data: { system, prompt } });
       setOutput(result.text);
+      if (activityLabel) logActivity(activityLabel);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
     } finally {
