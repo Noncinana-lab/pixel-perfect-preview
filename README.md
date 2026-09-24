@@ -205,7 +205,4 @@ Potential future improvements include:
 
 This project is intended for educational and portfolio purposes.
 
----
-
-**AI Workplace Productivity Assistant**
 
