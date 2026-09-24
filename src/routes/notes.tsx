@@ -42,7 +42,7 @@ If a section has nothing in the notes, write "- None mentioned". No markdown fen
 
 function NotesPage() {
   const [notes, setNotes] = useLocalState("aiwa.notes.input", "");
-  const { output, setOutput, loading, error, setError, generate } = useAiTool("aiwa.notes.output");
+  const { output, setOutput, loading, error, setError, generate } = useAiTool("aiwa.notes.output", "Summarised meeting notes");
 
   const submit = async () => {
     if (notes.trim().length < 30) {

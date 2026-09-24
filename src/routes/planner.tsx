@@ -58,7 +58,7 @@ function PlannerPage() {
     priorities: "",
     mode: "Daily",
   });
-  const { output, setOutput, loading, error, setError, generate } = useAiTool("aiwa.planner.output");
+  const { output, setOutput, loading, error, setError, generate } = useAiTool("aiwa.planner.output", "Created a task plan");
 
   const submit = async () => {
     if (!form.tasks.trim()) {

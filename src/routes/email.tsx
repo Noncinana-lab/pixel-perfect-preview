@@ -52,7 +52,7 @@ function EmailPage() {
     keyPoints: "",
     tone: "Formal",
   });
-  const { output, setOutput, loading, error, setError, generate } = useAiTool("aiwa.email.output");
+  const { output, setOutput, loading, error, setError, generate } = useAiTool("aiwa.email.output", "Generated an email draft");
 
   const submit = async () => {
     if (!form.purpose.trim() || !form.keyPoints.trim()) {
